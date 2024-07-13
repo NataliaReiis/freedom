@@ -1,5 +1,6 @@
-import { ButtonBase } from "@/components/ButtonBase";
+
 import { StyleSheet, Text, View } from "react-native";
+import { ButtonBase } from "../components/ButtonBase";
 
 export default function Page() {
   return (
