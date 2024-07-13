@@ -1,12 +1,11 @@
+import { ButtonBase } from "@/components/ButtonBase";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
   return (
     <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Hello World</Text>
-        <Text style={styles.subtitle}>Ola mundo</Text>
-      </View>
+      <Text style={styles.subtitle}>Ola mundo</Text>
+      <ButtonBase color="secondaryBlue" title="Entrar"></ButtonBase>
     </View>
   );
 }

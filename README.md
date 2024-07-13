@@ -11,3 +11,6 @@
 2. Start the app
 
    - npx expo start
+
+3. Build
+   - eas build --profile development --platform android
