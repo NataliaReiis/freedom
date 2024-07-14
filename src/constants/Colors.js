@@ -1,4 +1,4 @@
-const Colorss = {
+const Colors = {
   Dark: "#1E1F20",
   Error: "#AF0505",
   Ligth: "#F3F2F2",
@@ -13,4 +13,4 @@ const Colorss = {
   secondaryGray: "#929292",
 };
 
-export { Colorss };
+export { Colors };
