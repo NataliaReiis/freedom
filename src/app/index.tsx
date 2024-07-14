@@ -1,34 +1,28 @@
+import { Button, StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
 
-import { StyleSheet, Text, View } from "react-native";
-import { ButtonBase } from "../components/ButtonBase";
 
 export default function Page() {
+
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>Ola mundo</Text>
-      <ButtonBase color="secondaryBlue" title="Entrar"></ButtonBase>
+      <Text style={styles.title}>Freedom</Text>
+      <Link href="/login" asChild >
+        <Button title="Pagina Inicial"></Button>
+      </Link>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
     justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
+    alignItems: "center",
+    padding: 20,
   },
   title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: "center",
   },
 });
