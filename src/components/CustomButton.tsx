@@ -4,25 +4,29 @@ import { Button } from "@rneui/themed";
 interface CustomButtonProps {
   title: string;
   onPress?: () => void;
+  color: string;
+  fontColor: string
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ title, onPress }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ title, onPress, color, fontColor }) => {
   return (
     <Button
       title={title}
       buttonStyle={{
-        backgroundColor: "#13445A",
+        backgroundColor: color,
         borderRadius: 5,
+        height: 50
       }}
-      titleStyle={{ fontWeight: "bold", fontSize: 23 }}
+      titleStyle={{color: fontColor, fontWeight: 700, fontSize: 14 }}
       containerStyle={{
         marginHorizontal: 50,
-        height: 50,
-        width: 305,
+        height: 55,
+        width: 259,
         borderRadius: 5,
         marginVertical: 10,
+
       }}
-      onPress={onPress} // Adicionando onPress como propriedade opcional
+      onPress={onPress} 
     />
   );
 };

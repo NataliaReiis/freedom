@@ -13,12 +13,12 @@ export default function LoginLayout() {
       />
       <Stack.Screen
         name="forget-password"
-        options={{ title: "Esqueceu a senha" }}
+        options={{ title: "Esqueceu a senha", headerShown: false }}
       />
       <Stack.Screen
         name="reset-password"
-        options={{ title: "Resetar senha" }}
-      /> 
+        options={{ title: "Resetar senha", headerShown: false }}
+      />
     </Stack>
   );
 }

@@ -1,8 +1,7 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 
-
-export default function Page() {
+export default function Welcome() {
 
   return (
     <View style={styles.container}>

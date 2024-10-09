@@ -9,7 +9,7 @@ export default function TabRoutesLayout() {
       />
       <Stack.Screen
         name="login"
-        options={{ title: "Inicio",  }}
+        options={{ title: "Inicio", headerShown: false   }}
       />
     </Stack>
   );

@@ -1,9 +1,9 @@
 import assetOne from "@/assets2/pana.png";
-import imageWelcome from "@/assets2/image-welcome.png"
+import imageWelcome from "@/assets2/image-welcome.png";
 
-const images =  {
+const Images = {
   "asset-one": assetOne,
-  "image-welcome": imageWelcome
+  "image-welcome": imageWelcome,
 };
 
-export default images;
+export default Images;
