@@ -1,16 +1,15 @@
 import { Stack } from "expo-router";
-
+import { QueryClientProvider } from "@tanstack/react-query";
+import queryCliente from "./(services)/queryClient";
 export default function TabRoutesLayout() {
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ title: "Index", headerShown: false }}
-      />
-      <Stack.Screen
-        name="login"
-        options={{ title: "Inicio", headerShown: false   }}
-      />
-    </Stack>
+    <QueryClientProvider client={queryCliente}>
+      <Stack>
+        <Stack.Screen
+          name="Login"
+          options={{ title: "Index", headerShown: false }}
+        />
+      </Stack>
+    </QueryClientProvider>
   );
 }
