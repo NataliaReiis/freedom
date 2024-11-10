@@ -1,5 +1,5 @@
-import assetOne from "@/assets2/pana.png";
-import imageWelcome from "@/assets2/image-welcome.png";
+import assetOne from "../assets/pana.png";
+import imageWelcome from "../assets/image-welcome.png";
 
 const Images = {
   "asset-one": assetOne,

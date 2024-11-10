@@ -1,13 +1,11 @@
 import axios from "axios";
-import dotenv from "dotenv";
 
-dotenv.config();
-
-interface LoginProps {
-  data: string;
+export interface LoginProps {
+  email: string;
+  password: string;
 }
 
-const loginUser = async (data: LoginProps) => {
+export const LoginUser = async (data: LoginProps) => {
   try {
     const url = "http://localhost:3000/autentication";
 
@@ -16,6 +14,7 @@ const loginUser = async (data: LoginProps) => {
     }
 
     const response = await axios.post(url, data);
+    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -32,7 +31,7 @@ interface RegisterProps {
   sex: string;
 }
 
-const RegisterUser = async (data: RegisterProps) => {
+export const RegisterUser = async (data: RegisterProps) => {
   try {
     const url = "http://localhost:3000/users";
 

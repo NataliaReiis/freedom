@@ -1,15 +1,20 @@
 import { Stack } from "expo-router";
 import { QueryClientProvider } from "@tanstack/react-query";
-import queryCliente from "./(services)/queryClient";
+import queryCliente from "./data/services/queryClient";
+import { AuthProvider } from "@/app/data/contexts/authContext";
+import { useAuth } from "@/app/data/hooks/useAuth";
+
 export default function TabRoutesLayout() {
+  const { user } = useAuth();
+
   return (
-    <QueryClientProvider client={queryCliente}>
+    <AuthProvider>
       <Stack>
         <Stack.Screen
-          name="Login"
-          options={{ title: "Index", headerShown: false }}
+          name="index"
+          options={{ title: "Register", headerShown: false }}
         />
       </Stack>
-    </QueryClientProvider>
+    </AuthProvider>
   );
 }

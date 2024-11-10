@@ -2,11 +2,13 @@ import React from "react";
 import { Button, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors } from "@/constants/Colors";
-import images from "@/constants/Images";
-import CustomButton from "@/components/CustomButton";
+import { Colors } from "@/app/ui/constants/Colors";
+import images from "@/app/ui/constants/Images";
+import { useAuth } from "@/app/data/hooks/useAuth";
+import CustomButton from "./ui/components/CustomButton";
 
 const Login = () => {
+  const { user } = useAuth();
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -17,7 +19,7 @@ const Login = () => {
           <View style={styles.overlay}>
             <View style={styles.contentInitial}>
               <Text style={styles.titleInitial}>Seja livre, seja Freedom</Text>
-              <Link href="auth/Login" asChild>
+              <Link href={"/screens/Login"}>
                 <CustomButton
                   fontColor={Colors.Dark}
                   color={Colors.secondaryPink}
