@@ -1,14 +1,23 @@
 import React from "react";
-import { Button, ImageBackground, StyleSheet, Text, View } from "react-native";
-import { Link } from "expo-router";
+import {
+  Button,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors } from "@/app/ui/constants/Colors";
-import images from "@/app/ui/constants/Images";
-import { useAuth } from "@/app/data/hooks/useAuth";
-import CustomButton from "./ui/components/CustomButton";
+import { Colors } from "../ui/constants/Colors";
+import images from "../ui/constants/Images";
+import { useAuth } from "../data/hooks/useAuth";
+import CustomButton from "../ui/components/CustomButton";
 
 const Login = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -19,13 +28,9 @@ const Login = () => {
           <View style={styles.overlay}>
             <View style={styles.contentInitial}>
               <Text style={styles.titleInitial}>Seja livre, seja Freedom</Text>
-              <Link href={"/screens/Login"}>
-                <CustomButton
-                  fontColor={Colors.Dark}
-                  color={Colors.secondaryPink}
-                  title="Continuar"
-                ></CustomButton>
-              </Link>
+              <TouchableOpacity onPress={() => router.push("/login")}>
+                <Text>Continuar</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ImageBackground>

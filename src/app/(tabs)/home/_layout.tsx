@@ -1,7 +1,8 @@
-import { Tabs } from "expo-router";
+import { Tabs } from "expo-router/";
 import { FontAwesome } from "@expo/vector-icons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+
 export default function RootLayout() {
   return (
     <Tabs>
@@ -12,16 +13,6 @@ export default function RootLayout() {
           title: "Denucias",
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="exclamation" size={24} color="#F0B9C3" />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="index"
-        options={{
-          headerShown: false,
-          title: "Inicio",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome name="home" size={24} color="#F0B9C3" />
           ),
         }}
       />

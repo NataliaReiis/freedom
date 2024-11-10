@@ -10,8 +10,8 @@ import {
 import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Input } from "@rneui/themed";
-import images from "@/app/ui/constants/Images";
-import { Colors } from "@/app/ui/constants/Colors";
+import images from "../ui/constants/Images";
+import { Colors } from "../ui/constants/Colors";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { LoginProps, LoginUser, RegisterUser } from "../data/services/api/api";
@@ -110,7 +110,7 @@ const Login = (props: PropsWithChildren) => {
         <Text>Esqueceu a senha?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push("/screens/Register")}>
+      <TouchableOpacity onPress={() => router.push("/register")}>
         <Text>Criar conta</Text>
       </TouchableOpacity>
     </SafeAreaView>

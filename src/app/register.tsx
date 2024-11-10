@@ -3,8 +3,8 @@ import { Link, useRouter } from "expo-router";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Input } from "@rneui/themed";
-import images from "@/app/ui/constants/Images";
-import { Colors } from "@/app/ui/constants/Colors";
+import images from "../ui/constants/Images";
+import { Colors } from "../ui/constants/Colors";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
@@ -134,7 +134,7 @@ const Register = () => {
         </Formik>
       </View>
 
-      <TouchableOpacity onPress={() => router.push("/screens/Login")}>
+      <TouchableOpacity onPress={() => router.push("/login")}>
         <Text>Ja tem conta? Faça o Login</Text>
       </TouchableOpacity>
     </SafeAreaView>
