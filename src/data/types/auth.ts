@@ -1,7 +1,11 @@
-import { UserProps } from "./user";
+export interface UserData {
+  email: string;
+  password: string;
+  token: string;
+}
 
-export type AuthContextProps = {
-  user: UserProps | null;
-  login: () => (user: UserProps) => void;
-  logout: () => void;
-};
+export interface AuthContextProps {
+  user?: UserData;
+  signIn: (email: string, password: string) => Promise<UserData>;
+  signOut: () => Promise<void>;
+}

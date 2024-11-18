@@ -7,15 +7,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Input } from "@rneui/themed";
+
 import images from "../ui/constants/Images";
-import { Colors } from "../ui/constants/Colors";
+
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { LoginProps, LoginUser, RegisterUser } from "../data/services/api/api";
 import { PropsWithChildren, useState } from "react";
+import { authService } from "../data/services/authService";
+import axios from "axios";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("O Email é obrigatório").email().label("Email"),
@@ -25,26 +26,30 @@ const validationSchema = Yup.object().shape({
     .label("Senha"),
 });
 
-type UserProps = {
-  email: string;
-  password: string | null;
-};
 const Login = (props: PropsWithChildren) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (values: LoginProps) => {
-    if (username.length === 0) return;
+  const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
-
     try {
-      const response = await LoginUser(values);
-      const user = response.data;
-      console.log(user);
-    } catch (err) {
-      console.log("Error: ", err);
+      const url = "http://10.0.2.2:3000/auth";
+      const { data, status } = await axios.post(url, {
+        email: values.email,
+        password: values.password,
+      });
+
+      if (status === 200) {
+        const { token, email } = data;
+        console.log("ok");
+        console.log("token:", token, "email: ", email);
+      } else {
+        console.log("Resposta inesperada");
+      }
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -56,7 +61,10 @@ const Login = (props: PropsWithChildren) => {
         <Image source={images["asset-one"]} />
         <Formik
           initialValues={{ email: "", password: "" }}
-          onSubmit={handleLogin}
+          onSubmit={async (values) => {
+            console.log(values);
+            handleLogin({ email: values.email, password: values.password });
+          }}
           validationSchema={validationSchema}
         >
           {({
