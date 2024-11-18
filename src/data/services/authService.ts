@@ -1,9 +1,8 @@
 import axios from "axios";
-import { UserData } from "../types/auth";
 
 async function signIn(email: string, password: string) {
   try {
-    const url = "http://localhost:3000/auth";
+    const url = "http://10.0.2.2:3000/auth";
 
     if (!url) {
       throw new Error("Url nao definida");
@@ -15,11 +14,11 @@ async function signIn(email: string, password: string) {
     });
 
     if (status === 200) {
-      const { token, email: userEmail } = data;
-      console.log("Login realizado", userEmail);
-      console.log("token: ", token);
+      const { token, email } = data;
+      console.log("token:", token, "email: ", email);
+      return data;
     } else {
-      throw new Error("Falha na autenticação");
+      console.log("Resposta inesperada");
     }
   } catch (err) {
     if (axios.isAxiosError(err)) {

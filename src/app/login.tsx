@@ -35,19 +35,8 @@ const Login = (props: PropsWithChildren) => {
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
     try {
-      const url = "http://10.0.2.2:3000/auth";
-      const { data, status } = await axios.post(url, {
-        email: values.email,
-        password: values.password,
-      });
-
-      if (status === 200) {
-        const { token, email } = data;
-        console.log("ok");
-        console.log("token:", token, "email: ", email);
-      } else {
-        console.log("Resposta inesperada");
-      }
+      const user = await authService.signIn(values.email, values.password);
+      console.log(user);
     } catch (error) {
       console.error(error);
     } finally {
@@ -62,7 +51,6 @@ const Login = (props: PropsWithChildren) => {
         <Formik
           initialValues={{ email: "", password: "" }}
           onSubmit={async (values) => {
-            console.log(values);
             handleLogin({ email: values.email, password: values.password });
           }}
           validationSchema={validationSchema}
