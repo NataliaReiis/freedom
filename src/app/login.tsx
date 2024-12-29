@@ -27,8 +27,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = (props: PropsWithChildren) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -37,10 +35,9 @@ const Login = (props: PropsWithChildren) => {
     try {
       const user = await authService.signIn(values.email, values.password);
       console.log(user);
+      router.navigate("/home");
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -89,7 +86,6 @@ const Login = (props: PropsWithChildren) => {
               <TouchableOpacity
                 onPress={() => handleSubmit()}
                 style={styles.button}
-                disabled={loading}
               >
                 {loading ? (
                   <ActivityIndicator color="#fff" size={24} />

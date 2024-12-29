@@ -15,6 +15,5 @@
    - npx expo start
 
 3. Build
+   - npm install -g eas-cli
    - eas build --profile development --platform android
-
-
