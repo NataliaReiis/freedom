@@ -21,6 +21,7 @@ export default function RootLayout() {
             name="register"
             options={{ title: "Register", headerShown: false }}
           />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
       )}
     </AuthProvider>

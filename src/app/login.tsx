@@ -16,7 +16,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { PropsWithChildren, useState } from "react";
 import { authService } from "../data/services/authService";
-import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TOKEN_KEY } from "@/data/constants";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("O Email é obrigatório").email().label("Email"),
@@ -34,8 +35,11 @@ const Login = (props: PropsWithChildren) => {
     setLoading(true);
     try {
       const user = await authService.signIn(values.email, values.password);
+      const token = user.token;
+
+      await AsyncStorage.setItem(TOKEN_KEY, token);
       console.log(user);
-      router.navigate("/home");
+      router.navigate("/(tabs)");
     } catch (error) {
       console.error(error);
     }

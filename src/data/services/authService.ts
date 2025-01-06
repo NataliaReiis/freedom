@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function signIn(email: string, password: string) {
   try {
-    const url = "http://10.0.2.2:3000/auth";
+    const url = "http://192.168.15.91:3000/auth";
 
     if (!url) {
       throw new Error("Url nao definida");

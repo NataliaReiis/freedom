@@ -1,23 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
-  Button,
   ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../ui/constants/Colors";
 import images from "../ui/constants/Images";
-import { useAuth } from "../data/hooks/useAuth";
-import CustomButton from "../ui/components/CustomButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Login = () => {
-  // const { user } = useAuth();
-
+const App = () => {
   const router = useRouter();
+
+  const getToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem("token-key");
+      if (value !== null) {
+        router.navigate("/(tabs)");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getToken();
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -75,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default App;

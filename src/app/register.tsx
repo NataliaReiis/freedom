@@ -9,17 +9,14 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("O Nome é obrigatório").label("Nome"),
-  email: Yup.string().required("O Email é obrigatório").email().label("Email"),
+  name: Yup.string().required("O Nome é obrigatório"),
+  email: Yup.string().required("O Email é obrigatório").email(),
   confirmEmail: Yup.string()
-    .oneOf([Yup.ref("email"), undefined], "Os e-mails precisam ser iguais")
+    .oneOf([Yup.ref("email")], "Os e-mails precisam ser iguais")
     .required("A confirmação de e-mail é obrigatória"),
-  password: Yup.string()
-    .required("A senha é obrigatória")
-    .min(6)
-    .label("Senha"),
+  password: Yup.string().required("A senha é obrigatória").min(6),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), undefined], "as senhas precisam ser iguais")
+    .oneOf([Yup.ref("password")], "as senhas precisam ser iguais")
     .required("Requerid"),
   phoneNumber: Yup.string(),
 });
@@ -71,8 +68,8 @@ const Register = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Confirmar email"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
+                onChangeText={handleChange("confirmEmail")}
+                onBlur={handleBlur("confirmEmail")}
                 value={values.confirmEmail}
                 keyboardType="email-address"
               />
@@ -86,7 +83,6 @@ const Register = () => {
                 onChangeText={handleChange("phoneNumber")}
                 onBlur={handleBlur("phoneNumber")}
                 value={values.phoneNumber}
-                secureTextEntry
               />
               {errors.phoneNumber && touched.phoneNumber && (
                 <Text>{errors.phoneNumber}</Text>
