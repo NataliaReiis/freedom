@@ -1,11 +1,9 @@
+import { CreateProfile } from "./profile";
+
 export type UserProps = {
-  id?: string;
-  token: string;
+  id: string;
   email: string;
-  name?: string;
-  tel?: string;
-  marital_status?: string;
-  password?: string;
-  age?: number;
-  sex?: string;
+  password: string;
 };
+
+export type CreateUserWithProfile = Omit<UserProps, "id"> & CreateProfile;

@@ -39,9 +39,12 @@ const App = () => {
         >
           <View style={styles.overlay}>
             <View style={styles.contentInitial}>
-              <Text style={styles.titleInitial}>Seja livre, seja Freedom</Text>
-              <TouchableOpacity onPress={() => router.push("/login")}>
-                <Text>Continuar</Text>
+              <Text style={styles.titleInitial}>Seja livre, seja Freedom!</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => router.push("/login")}
+              >
+                <Text style={styles.textButton}>Continuar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -83,6 +86,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: Colors.Dark,
     backgroundColor: "transparent",
+  },
+  button: {
+    backgroundColor: Colors.secondaryPink,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 65,
+    paddingVertical: 15,
+    marginTop: 10,
+  },
+  textButton: {
+    fontSize: 18,
+    fontWeight: "500",
   },
 });
 

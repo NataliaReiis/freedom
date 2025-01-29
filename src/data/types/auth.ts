@@ -5,7 +5,7 @@ export interface UserData {
 }
 
 export interface AuthContextProps {
-  user?: UserData;
+  user?: UserData | null;
   signIn: (email: string, password: string) => Promise<UserData>;
   signOut: () => Promise<void>;
 }

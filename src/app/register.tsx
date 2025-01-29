@@ -1,12 +1,19 @@
-import { GestureResponderEvent, StyleSheet } from "react-native";
-import { Link, useRouter } from "expo-router";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Input } from "@rneui/themed";
-import images from "../ui/constants/Images";
-import { Colors } from "../ui/constants/Colors";
+
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { createUser } from "@/data/services/register";
+import { useState } from "react";
+import { CreateUserWithProfile } from "@/data/types/user";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("O Nome é obrigatório"),
@@ -22,6 +29,24 @@ const validationSchema = Yup.object().shape({
 });
 
 const Register = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handlecreateUser = async (data: CreateUserWithProfile) => {
+    setLoading(true);
+    try {
+      const create = await createUser(data);
+      const token = create?.token;
+
+      if (!token) {
+        throw new Error("token invalido");
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const router = useRouter();
   return (
     <SafeAreaView>
@@ -36,7 +61,7 @@ const Register = () => {
             confirmPassword: "",
             phoneNumber: "",
           }}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={(values) => handlecreateUser(values)}
           validationSchema={validationSchema}
         >
           {({
@@ -112,19 +137,20 @@ const Register = () => {
                 <Text>{errors.confirmPassword}</Text>
               )}
 
-              <TouchableOpacity>
-                <View style={styles.button}>
-                  <Text>Enviar</Text>
-                </View>
-              </TouchableOpacity>
-
               <Text>
                 Ao criar uma conta, você aceita os termos de privacidade e uso
                 de dados.
               </Text>
-              <TouchableOpacity onPress={() => handleSubmit()}>
-                <Text>Entrar</Text>
-              </TouchableOpacity>
+              {loading ? (
+                <ActivityIndicator color="#fff" size={24} />
+              ) : (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => handleSubmit()}
+                >
+                  <Text>Entrar</Text>
+                </TouchableOpacity>
+              )}
             </View>
           )}
         </Formik>

@@ -1,13 +1,13 @@
 import { Stack } from "expo-router";
-import { AuthProvider } from "../data/contexts/auth";
-import { useAuth } from "../data/hooks/useAuth";
+import { AuthContext, AuthProvider } from "../data/contexts/auth";
+import { useContext } from "react";
 
 export default function RootLayout() {
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
 
   return (
     <AuthProvider>
-      {!user && (
+      {!user ? (
         <Stack>
           <Stack.Screen
             name="index"
@@ -21,8 +21,9 @@ export default function RootLayout() {
             name="register"
             options={{ title: "Register", headerShown: false }}
           />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
+      ) : (
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       )}
     </AuthProvider>
   );

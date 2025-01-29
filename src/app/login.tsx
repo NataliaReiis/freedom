@@ -14,10 +14,8 @@ import images from "../ui/constants/Images";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { PropsWithChildren, useState } from "react";
-import { authService } from "../data/services/authService";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TOKEN_KEY } from "@/data/constants";
+import { useContext, useState } from "react";
+import { AuthContext, AuthProvider } from "@/data/contexts/auth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("O Email é obrigatório").email().label("Email"),
@@ -27,89 +25,89 @@ const validationSchema = Yup.object().shape({
     .label("Senha"),
 });
 
-const Login = (props: PropsWithChildren) => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { signIn } = useContext(AuthContext);
 
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
     try {
-      const user = await authService.signIn(values.email, values.password);
-      const token = user.token;
-
-      await AsyncStorage.setItem(TOKEN_KEY, token);
-      console.log(user);
+      signIn(values.email, values.password);
       router.navigate("/(tabs)");
+      return;
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <SafeAreaView>
-      <View>
-        <Image source={images["asset-one"]} />
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          onSubmit={async (values) => {
-            handleLogin({ email: values.email, password: values.password });
-          }}
-          validationSchema={validationSchema}
-        >
-          {({
-            handleChange,
-            handleSubmit,
-            handleBlur,
-            values,
-            errors,
-            touched,
-          }) => (
-            <View>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-                keyboardType="email-address"
-              />
-              {errors.email && touched.email && <Text>{errors.email}</Text>}
+    <AuthProvider>
+      <SafeAreaView>
+        <View>
+          <Image source={images["asset-one"]} />
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={async (values) => {
+              handleLogin({ email: values.email, password: values.password });
+            }}
+            validationSchema={validationSchema}
+          >
+            {({
+              handleChange,
+              handleSubmit,
+              handleBlur,
+              values,
+              errors,
+              touched,
+            }) => (
+              <View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  keyboardType="email-address"
+                />
+                {errors.email && touched.email && <Text>{errors.email}</Text>}
 
-              <TextInput
-                style={styles.input}
-                placeholder="Senha"
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-                secureTextEntry
-              />
-              {errors.password && touched.password && (
-                <Text>{errors.password}</Text>
-              )}
-
-              <TouchableOpacity
-                onPress={() => handleSubmit()}
-                style={styles.button}
-              >
-                {loading ? (
-                  <ActivityIndicator color="#fff" size={24} />
-                ) : (
-                  <Text>Login</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Senha"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  secureTextEntry
+                />
+                {errors.password && touched.password && (
+                  <Text>{errors.password}</Text>
                 )}
-              </TouchableOpacity>
-            </View>
-          )}
-        </Formik>
-      </View>
 
-      <TouchableOpacity>
-        <Text>Esqueceu a senha?</Text>
-      </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleSubmit()}
+                  style={styles.button}
+                >
+                  {loading ? (
+                    <ActivityIndicator color="#fff" size={24} />
+                  ) : (
+                    <Text>Login</Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
+          </Formik>
+        </View>
 
-      <TouchableOpacity onPress={() => router.push("/register")}>
-        <Text>Criar conta</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        <TouchableOpacity>
+          <Text>Esqueceu a senha?</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => router.push("/register")}>
+          <Text>Criar conta</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </AuthProvider>
   );
 };
 
