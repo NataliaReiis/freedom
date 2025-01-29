@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 65,
+    paddingHorizontal: 100,
     paddingVertical: 15,
     marginTop: 10,
   },
   textButton: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "500",
   },
 });
