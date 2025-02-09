@@ -24,7 +24,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         borderRadius: 5,
         height: 50,
       }}
-      titleStyle={{ color: fontColor, fontWeight: 700, fontSize: 14 }}
+      titleStyle={{ color: fontColor, fontWeight: 400, fontSize: 18 }}
       containerStyle={{
         marginHorizontal: 10,
         height: 55,
