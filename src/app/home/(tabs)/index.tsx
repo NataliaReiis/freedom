@@ -1,8 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useContext } from "react";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "@/data/contexts/auth";
+import { Avatar } from "@ui-kitten/components";
 
 const Home = () => {
   const router = useRouter();
@@ -15,8 +16,11 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <Link href="/home/modalProfile">
+        <Avatar source={require("../../../ui/assets/example-profile.png")} />
+      </Link>
+      <Link href="/home/modalComplaint">Denunciar</Link>
       <View style={styles.container}>
-        <Text>home</Text>
         <TouchableOpacity onPress={() => handleLogout()}>
           <Text>Sair</Text>
         </TouchableOpacity>
@@ -35,5 +39,9 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     flex: 1,
+  },
+  map: {
+    width: "100%",
+    height: "100%",
   },
 });
