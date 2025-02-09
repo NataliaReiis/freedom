@@ -19,7 +19,7 @@ const App = () => {
     try {
       const value = await AsyncStorage.getItem("token-key");
       if (value !== null) {
-        router.navigate("/(tabs)");
+        router.navigate("/home/(tabs)");
       }
     } catch (error) {
       console.error(error);

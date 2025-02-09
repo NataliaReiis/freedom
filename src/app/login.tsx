@@ -4,7 +4,6 @@ import {
   Image,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -19,6 +18,9 @@ import { AuthContext, AuthProvider } from "@/data/contexts/auth";
 import { inputStyle } from "@/ui/styles/input-style";
 import CustomButton from "@/ui/components/CustomButton";
 import { Colors } from "@/ui/constants/Colors";
+import { globalStyle } from "@/ui/styles/global-style";
+import { buttonStyle } from "@/ui/styles/button-style";
+import { formStyle } from "@/ui/styles/form-style";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("O Email é obrigatório").email().label("Email"),
@@ -37,7 +39,7 @@ const Login = () => {
     setLoading(true);
     try {
       signIn(values.email, values.password);
-      router.navigate("/(tabs)");
+      router.navigate("/home/(tabs)");
       return;
     } catch (error) {
       console.error(error);
@@ -46,10 +48,10 @@ const Login = () => {
 
   return (
     <AuthProvider>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={globalStyle.safeArea}>
         <View style={styles.container}>
           <Image style={styles.imageMain} source={images["asset-one"]} />
-          <View style={styles.form}>
+          <View style={formStyle.form}>
             <Text style={styles.h1}>Login</Text>
             <Formik
               initialValues={{ email: "", password: "" }}
@@ -89,18 +91,23 @@ const Login = () => {
                     <Text>{errors.password}</Text>
                   )}
 
-                  <Text style={styles.forgetPassword}>Esqueceu a senha?</Text>
+                  <Text
+                    onPress={() => router.push("/forgot-password/verify")}
+                    style={styles.forgetPassword}
+                  >
+                    Esqueceu a senha?
+                  </Text>
 
                   <CustomButton
-                    title="Entrar"
                     onPress={() => handleSubmit()}
+                    title="Entrar"
                     color={Colors.secondaryGray}
                     fontColor="#ffffff"
                   >
                     {loading ? (
-                      <ActivityIndicator color="#fff" size={24} />
+                      <ActivityIndicator />
                     ) : (
-                      <Text>Login</Text>
+                      <Text style={buttonStyle.button}>Login</Text>
                     )}
                   </CustomButton>
                 </View>
@@ -146,11 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "500",
   },
-  form: {
-    width: "100%",
-    flex: 1,
-    padding: 14,
-  },
+
   containerLine: {
     flexDirection: "row",
     alignItems: "center",
@@ -183,13 +186,6 @@ const styles = StyleSheet.create({
     textAlign: "right",
     color: Colors.secondaryBlue,
     fontWeight: "500",
-  },
-
-  button: {
-    backgroundColor: "#929292",
-    height: 40,
-    justifyContent: "center",
-    textAlign: "center",
   },
 });
 
