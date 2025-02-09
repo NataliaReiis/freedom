@@ -16,14 +16,26 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Link href="/home/modalProfile">
-        <Avatar source={require("../../../ui/assets/example-profile.png")} />
-      </Link>
-      <Link href="/home/modalComplaint">Denunciar</Link>
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => handleLogout()}>
+        <View style={styles.avatar}>
+          <Link style={styles.avatarLink} href="/home/modalProfile">
+            <Avatar
+              size="large"
+              source={require("../../../ui/assets/example-profile.png")}
+            />
+          </Link>
+        </View>
+        {/* <TouchableOpacity onPress={() => handleLogout()}>
           <Text>Sair</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <View style={styles.avatar}>
+          <Link style={styles.avatarLink} href="/home/modalComplaint">
+            <Avatar
+              size="large"
+              source={require("../../../ui/assets/icon-create-complaint.png")}
+            />
+          </Link>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -36,12 +48,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    height: "100%",
+    height: "auto",
     width: "100%",
     flex: 1,
+    paddingRight: 30,
   },
-  map: {
+
+  avatar: {
     width: "100%",
-    height: "100%",
+    height: "auto",
+    alignItems: "flex-end",
+  },
+  avatarLink: {
+    height: "80%",
   },
 });
