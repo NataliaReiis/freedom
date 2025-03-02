@@ -12,4 +12,11 @@ export const textStyle = StyleSheet.create({
     color: Colors.secondaryGray,
     fontSize: 14,
   },
+  h1Home: {
+    fontSize: 40,
+    fontWeight: "500",
+    color: "#703540",
+    marginBottom: 15,
+    textAlign: "center",
+  },
 });
