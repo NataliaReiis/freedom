@@ -1,15 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useMemo, useState } from "react";
 import { AuthContextProps, UserData } from "../types/auth";
-import { authService } from "../services/authService";
+import { authService } from "../requests/authRequest";
 import { TOKEN_KEY } from "../constants";
+import { CreateLoginProps } from "../types/user";
 
 export const AuthContext = createContext<AuthContextProps>(
   {} as AuthContextProps
 );
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserData | undefined>(undefined);
+  const [user, setUser] = useState<UserData | undefined | null>(null);
 
   const signIn = async (email: string, password: string): Promise<UserData> => {
     try {
@@ -31,9 +32,43 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const createLogin = async (
+    data: CreateLoginProps
+  ): Promise<CreateLoginProps> => {
+    try {
+      const response = await authService.createUser(data);
+
+      console.log(response);
+
+      if (!response) {
+        throw new Error("token iválido");
+      }
+
+      await AsyncStorage.setItem(TOKEN_KEY, response.token);
+
+      const user: CreateLoginProps = {
+        email: response.user.email,
+        password: response.user.password,
+        name: response.profile.name,
+        tel: response.profile.tel,
+        cpf: response.profile.cpf,
+        age: response.profile.age ?? 0,
+        sex: response.profile.sex ?? null,
+        marital_status: response.profile.marital_status ?? null,
+      };
+
+      setUser(user);
+
+      return user;
+    } catch (error) {
+      console.error("Error interno no servidor");
+      throw error;
+    }
+  };
+
   const signOut = async (): Promise<void> => {
     try {
-      setUser(undefined);
+      setUser(null);
       await AsyncStorage.removeItem(TOKEN_KEY);
       console.log("Logout realizado");
       console.log(TOKEN_KEY);
@@ -47,6 +82,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       user,
       signIn,
       signOut,
+      createLogin,
     }),
     [user]
   );

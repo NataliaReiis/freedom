@@ -120,6 +120,9 @@ export default function modalComplaint() {
                 numberOfLines={4}
               ></TextInput>
             </View>
+            <View>
+              <TextInput placeholder="Digite o endereço"></TextInput>
+            </View>
             <Button>Enviar</Button>
           </View>
         </ImageBackground>

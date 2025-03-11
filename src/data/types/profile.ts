@@ -5,8 +5,8 @@ export interface Profile {
   age?: number;
   sex?: string;
   cpf?: string;
-  marital_status?: string;
-  userID: string;
+  marital_status?: string | null;
+  userID?: string;
 }
 
 export type CreateProfile = Omit<Profile, "id" | "userID">;

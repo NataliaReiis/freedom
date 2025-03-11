@@ -14,7 +14,7 @@ import images from "../ui/constants/Images";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useContext, useState } from "react";
-import { AuthContext, AuthProvider } from "@/data/contexts/auth";
+import { AuthContext, AuthProvider } from "@/data/contexts/authContext";
 import { inputStyle } from "@/ui/styles/input-style";
 import CustomButton from "@/ui/components/CustomButton";
 import { Colors } from "@/ui/constants/Colors";

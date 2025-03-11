@@ -11,15 +11,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { createUser } from "@/data/services/register";
-import { useState } from "react";
-import { CreateUserWithProfile } from "@/data/types/user";
+
+import { useContext, useState } from "react";
+
 import { inputStyle } from "@/ui/styles/input-style";
 import { textStyle } from "@/ui/styles/text-style";
 import { globalStyle } from "@/ui/styles/global-style";
 import { formStyle } from "@/ui/styles/form-style";
-import CustomButton from "@/ui/components/CustomButton";
-import { Colors } from "@/ui/constants/Colors";
+import { AuthContext } from "@/data/contexts/authContext";
+import { CreateLoginProps } from "@/data/types/user";
+import { Button } from "@rneui/base";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("O Nome é obrigatório"),
@@ -30,30 +31,29 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required("A senha é obrigatória").min(6),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "as senhas precisam ser iguais")
-    .required("Requerid"),
-  phoneNumber: Yup.string(),
+    .required("A confirmação de senha é obrigatória."),
+  age: Yup.number().required("A idade é obrigatória"),
+  tel: Yup.number(),
+  cpf: Yup.string().required("O  cpf é obrigatório."),
 });
 
 const Register = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const { createLogin } = useContext(AuthContext);
 
-  const handlecreateUser = async (data: CreateUserWithProfile) => {
-    setLoading(true);
+  const handlecreateUser = async (data: CreateLoginProps) => {
     try {
-      const create = await createUser(data);
-      const token = create?.token;
-
-      if (!token) {
-        throw new Error("token invalido");
-      }
-
-      setLoading(false);
+      setLoading(true);
+      createLogin(data);
+      console.log("dados: ", data);
+      router.navigate("/home/(tabs)");
+      return;
     } catch (error) {
       console.error(error);
     }
   };
 
-  const router = useRouter();
   return (
     <SafeAreaView style={globalStyle.safeArea}>
       <View style={styles.container}>
@@ -61,14 +61,25 @@ const Register = () => {
           <Text style={textStyle.h1}>Criar Conta</Text>
           <Formik
             initialValues={{
-              name: "",
               email: "",
               confirmEmail: "",
               password: "",
               confirmPassword: "",
-              phoneNumber: "",
+              name: "",
+              tel: "",
+              cpf: "",
+              age: 0,
             }}
-            onSubmit={(values) => handlecreateUser(values)}
+            onSubmit={async (values) => {
+              handlecreateUser({
+                email: values.email,
+                password: values.password,
+                name: values.name,
+                tel: values.tel,
+                cpf: values.cpf,
+                age: values.age,
+              });
+            }}
             validationSchema={validationSchema}
           >
             {({
@@ -111,14 +122,31 @@ const Register = () => {
 
                 <TextInput
                   style={inputStyle.input}
-                  placeholder="Número de celular"
-                  onChangeText={handleChange("phoneNumber")}
-                  onBlur={handleBlur("phoneNumber")}
-                  value={values.phoneNumber}
+                  placeholder="Digite sua idade"
+                  onChangeText={handleChange("age")}
+                  onBlur={handleBlur("age")}
+                  value={values.age.toString()}
+                  keyboardType="numeric"
                 />
-                {errors.phoneNumber && touched.phoneNumber && (
-                  <Text>{errors.phoneNumber}</Text>
-                )}
+                {errors.age && touched.age && <Text>{errors.age}</Text>}
+
+                <TextInput
+                  style={inputStyle.input}
+                  placeholder="Número de celular"
+                  onChangeText={handleChange("tel")}
+                  onBlur={handleBlur("tel")}
+                  value={values.tel}
+                />
+                {errors.tel && touched.tel && <Text>{errors.tel}</Text>}
+
+                <TextInput
+                  style={inputStyle.input}
+                  placeholder="Digite seu cpf"
+                  onChangeText={handleChange("cpf")}
+                  onBlur={handleBlur("cpf")}
+                  value={values.cpf}
+                />
+                {errors.cpf && touched.cpf && <Text>{errors.cpf}</Text>}
 
                 <TextInput
                   style={inputStyle.input}
@@ -149,16 +177,13 @@ const Register = () => {
                   de dados.
                 </Text>
 
-                {loading ? (
-                  <ActivityIndicator color="#fff" size={24} />
-                ) : (
-                  <CustomButton
-                    title="Enviar"
-                    color={Colors.secondaryGray}
-                    fontColor="#ffffff"
-                    onPress={() => handleSubmit()}
-                  ></CustomButton>
-                )}
+                <Button onPress={() => handleSubmit()}>
+                  {loading ? (
+                    <ActivityIndicator color="#fff" size={24} />
+                  ) : (
+                    <Text>Login</Text>
+                  )}
+                </Button>
               </View>
             )}
           </Formik>

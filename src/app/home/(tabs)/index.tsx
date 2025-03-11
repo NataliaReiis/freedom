@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useContext } from "react";
 import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AuthContext } from "@/data/contexts/auth";
+import { AuthContext } from "@/data/contexts/authContext";
 import { Avatar } from "@ui-kitten/components";
 
 const Home = () => {
@@ -25,9 +25,9 @@ const Home = () => {
             />
           </Link>
         </View>
-        {/* <TouchableOpacity onPress={() => handleLogout()}>
+        <TouchableOpacity onPress={() => handleLogout()}>
           <Text>Sair</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         <View style={styles.avatar}>
           <Link style={styles.avatarLink} href="/home/modalComplaint">
             <Avatar

@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { AuthContext, AuthProvider } from "../data/contexts/auth";
+import { AuthContext, AuthProvider } from "../data/contexts/authContext";
 import { useContext } from "react";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
