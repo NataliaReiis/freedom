@@ -1,17 +1,23 @@
-import { CreateLoginProps } from "./user";
+import { CreateUserWithProfile } from "./user";
 
 export interface UserData {
   email: string;
-  password: string;
-  token?: string;
+  token: string;
 }
 
 export interface AuthContextProps {
   user: UserData | null | undefined;
 
-  signIn: (email: string, password: string) => Promise<UserData>;
+  LoginAcess: (email: string, password: string) => Promise<UserData>;
 
-  createLogin: (data: CreateLoginProps) => Promise<CreateLoginProps>;
+  createLogin: (
+    email: string,
+    password: string,
+    name: string,
+    tel: string,
+    cpf: string,
+    age: number
+  ) => Promise<CreateUserWithProfile>;
 
   signOut: () => Promise<void>;
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { CreateLoginProps } from "../types/user";
+import { CreateUserWithProfile } from "../types/user";
 
-async function signIn(email: string, password: string) {
+async function signIn(emailClient: string, password: string) {
   try {
     const url = "http://192.168.15.91:3000/auth";
 
@@ -10,25 +10,33 @@ async function signIn(email: string, password: string) {
     }
 
     const { data, status } = await axios.post(url, {
-      email,
+      email: emailClient,
       password,
     });
 
-    if (status === 200) {
-      const { token, email } = data;
-
-      console.log("token:", token, "email: ", email);
-
-      return data;
-    } else {
-      console.log("Resposta inesperada");
+    if (status !== 200) {
+      throw new Error("Erro de conexão");
     }
+
+    const { token, email } = data;
+
+    console.log("token:", token, "email: ", email);
+
+    return { email, token };
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }
 
-async function createUser(dto: CreateLoginProps) {
+async function createUser(
+  email: string,
+  password: string,
+  name: string,
+  tel: string,
+  cpf: string,
+  age: number
+) {
   try {
     const url = "http://192.168.15.91:3000/auth/register";
 
@@ -36,23 +44,21 @@ async function createUser(dto: CreateLoginProps) {
       throw new Error("Url nao definida");
     }
 
-    const { data, status } = await axios.post(url, dto);
+    const response: CreateUserWithProfile = await axios.post(url, {
+      email,
+      password,
+      name,
+      tel,
+      cpf,
+      age,
+    });
 
-    console.log("response axios", data);
+    console.log("response axios", response);
 
-    if (status === 201) {
-      const response = data;
-
-      console.log(response);
-
-      console.log("token:", response.token, "email: ", response.email);
-
-      return response;
-    } else {
-      console.log("Resposta inesperada");
-    }
+    return response;
   } catch (error) {
     console.error("erro interno no servidor");
+    throw error;
   }
 }
 

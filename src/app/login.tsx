@@ -16,11 +16,12 @@ import * as Yup from "yup";
 import { useContext, useState } from "react";
 import { AuthContext, AuthProvider } from "@/data/contexts/authContext";
 import { inputStyle } from "@/ui/styles/input-style";
-import CustomButton from "@/ui/components/CustomButton";
 import { Colors } from "@/ui/constants/Colors";
 import { globalStyle } from "@/ui/styles/global-style";
 import { buttonStyle } from "@/ui/styles/button-style";
 import { formStyle } from "@/ui/styles/form-style";
+import Toast from "react-native-toast-message";
+import { Button } from "@ui-kitten/components";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("O Email é obrigatório").email().label("Email"),
@@ -33,16 +34,31 @@ const validationSchema = Yup.object().shape({
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { signIn } = useContext(AuthContext);
+  const { LoginAcess } = useContext(AuthContext);
 
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
     try {
-      signIn(values.email, values.password);
+      await LoginAcess(values.email, values.password);
       router.navigate("/home/(tabs)");
+
+      Toast.show({
+        type: "success",
+        text1: "Login realizado!",
+        text2: "Seja Bem-vindo!",
+      });
+
       return;
     } catch (error) {
       console.error(error);
+
+      Toast.show({
+        type: "error",
+        text1: "Credenciais invalidas",
+        text2: "Erro no login",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,18 +114,12 @@ const Login = () => {
                     Esqueceu a senha?
                   </Text>
 
-                  <CustomButton
+                  <Button
+                    style={buttonStyle.button}
                     onPress={() => handleSubmit()}
-                    title="Entrar"
-                    color={Colors.secondaryGray}
-                    fontColor="#ffffff"
                   >
-                    {loading ? (
-                      <ActivityIndicator />
-                    ) : (
-                      <Text style={buttonStyle.button}>Login</Text>
-                    )}
-                  </CustomButton>
+                    {loading ? <ActivityIndicator /> : <Text>Login</Text>}
+                  </Button>
                 </View>
               )}
             </Formik>
@@ -134,6 +144,7 @@ const Login = () => {
           </View>
         </View>
       </SafeAreaView>
+      <Toast />
     </AuthProvider>
   );
 };

@@ -3,7 +3,7 @@ import { createContext, useMemo, useState } from "react";
 import { AuthContextProps, UserData } from "../types/auth";
 import { authService } from "../requests/authRequest";
 import { TOKEN_KEY } from "../constants";
-import { CreateLoginProps } from "../types/user";
+import { CreateUserWithProfile } from "../types/user";
 
 export const AuthContext = createContext<AuthContextProps>(
   {} as AuthContextProps
@@ -12,19 +12,23 @@ export const AuthContext = createContext<AuthContextProps>(
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserData | undefined | null>(null);
 
-  const signIn = async (email: string, password: string): Promise<UserData> => {
+  const LoginAcess = async (
+    email: string,
+    password: string
+  ): Promise<UserData> => {
     try {
       const user = await authService.signIn(email, password);
 
-      if (!user?.token) {
-        throw new Error("token invalido");
+      console.log("user:", user.email, user.token);
+
+      if (!user.token) {
+        throw new Error("Token nao definido");
       }
 
       await AsyncStorage.setItem(TOKEN_KEY, user.token);
       setUser(user);
 
       console.log("login realizado");
-
       return user;
     } catch (error) {
       console.error("Error no login");
@@ -33,33 +37,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const createLogin = async (
-    data: CreateLoginProps
-  ): Promise<CreateLoginProps> => {
+    email: string,
+    password: string,
+    name: string,
+    tel: string,
+    cpf: string,
+    age: number
+  ): Promise<CreateUserWithProfile> => {
     try {
-      const response = await authService.createUser(data);
+      const response = await authService.createUser(
+        email,
+        password,
+        name,
+        tel,
+        cpf,
+        age
+      );
+
+      console.log("response: ", response);
 
       console.log(response);
 
-      if (!response) {
-        throw new Error("token iválido");
+      if (!response.token) {
+        throw new Error("Token não encontrado");
       }
 
       await AsyncStorage.setItem(TOKEN_KEY, response.token);
 
-      const user: CreateLoginProps = {
+      return {
         email: response.user.email,
         password: response.user.password,
-        name: response.profile.name,
-        tel: response.profile.tel,
-        cpf: response.profile.cpf,
-        age: response.profile.age ?? 0,
-        sex: response.profile.sex ?? null,
-        marital_status: response.profile.marital_status ?? null,
+        ...response.profile,
       };
-
-      setUser(user);
-
-      return user;
     } catch (error) {
       console.error("Error interno no servidor");
       throw error;
@@ -80,7 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const AuthContextValue = useMemo(
     () => ({
       user,
-      signIn,
+      LoginAcess,
       signOut,
       createLogin,
     }),
